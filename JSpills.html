@@ -1,0 +1,129 @@
+<!doctype html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Pill Checker</title>
+	<style>
+	
+		html {
+		 background-color: rgba(37, 64, 75, 1);
+		 }
+	
+		div {
+		 color: white;
+		 text-align: center;
+		 }
+		 
+		 div, button {
+		 	margin-top: 10px;
+		 	font-size: 24px;
+		 }
+		 
+		 button {
+		 	border-radius: 10px;
+		 }
+
+	</style>
+	
+</head>
+
+<body>
+	
+	<div id="date-container">
+		<div id="date">
+		</div>
+	</div>
+	
+	<div id="text-container">
+		<div id="text" style="display:none;">
+			You have not taken your pills.
+			</br>
+			Did that change?
+		</div>
+	</div>
+	
+	<div id="button-container">
+		<div id="button">
+			<button id="click1">
+				click
+			</button>
+			<button id="clickNo" style="display: none;">
+				no
+			</button>
+			<button id="clickYes" style="display: none;">
+				yes
+			</button>
+		</div>
+	</div>
+	
+	<script>
+	
+	//date display
+	//
+	var dateWords = document.getElementById("date");//get div
+	var date = new Date();//get current date
+	var year = date.getFullYear();//get year
+	var month = date.getMonth() + 1;//get month
+	var day = date.getDate();//get day
+	
+	dateWords.innerHTML = `${month} / ${day} / ${year}`;//display current date
+	
+	
+	//main program
+	//	
+    var clickNo = document.getElementById("clickNo");
+    var clickYes = document.getElementById("clickYes");
+    var click1 = document.getElementById("click1");
+    var buttonContain = document.getElementById("button-container");    
+    var textBox = document.getElementById("text");
+    
+    var tomorrowSwitch = new Date(year, (month - 1), (day + 1), 0, 0, 0, 0);
+    var cookies = document.cookie;
+    
+    click1.onclick = function() {
+    	click1.style.display = "none";//remove click here button
+    	if (cookies == "visit=yes") {//if pills have been taken
+    		buttonContain.innerHTML = "You already took your pills today!";//display message
+    		document.cookie = "visit=yes; expires=" + tomorrowSwitch.toUTCString();//set expiring cookie to yes
+    	}
+    	else {//pills have not been taken
+    		text.style.display = "inline";//display text
+    		clickNo.style.display = "inline";//display no button
+    		clickYes.style.display = "inline";//display yes button
+    		
+    		clickNo.onclick = function() {//still have not taken pills
+    			text.style.display = "none";//hide text
+    			buttonContain.innerHTML = "Okay, come back later.";//display message
+    			document.cookie = "visit=no; expires=" + tomorrowSwitch.toUTCString();//set expiring cookie to no
+    		}
+    		clickYes.onclick = function() {//have taken pills
+    			text.style.display = "none";//hide text
+    			buttonContain.innerHTML = "Alright!";//display message
+    			document.cookie = "visit=yes; expires=" + tomorrowSwitch.toUTCString();//set expiring cookie to yes
+    		}
+    	}
+    }
+    
+	</script>
+	
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
